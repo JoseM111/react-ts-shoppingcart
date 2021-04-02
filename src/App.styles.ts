@@ -3,6 +3,9 @@ import { IconButton } from '@material-ui/core'
 
 //: - ©MEMBER-PROPERTIES|
 /*| #™━━━━━━━━━━━━━━━━━━━━━|*/
+export const horizontalMargin = ({ marginRight = 0, marginLeft = 0 } ): string =>
+    `0 ${ marginRight }px 0 ${ marginLeft }px`
+/// - END OF: horizontalMargin ♠♠♠
 export const boxShadow = `
     inset 0 -3em 3em rgba(0,0,0,0.1),
     0 0  0 2px rgb(255,255,255),

@@ -1,29 +1,32 @@
 /* Item */
 import { FC } from 'react'
-import { CartItemProp } from 'App'
 import Button from '@material-ui/core/Button'
 import { Wrapper } from './Item.styles'
+import { CartItemProps } from 'App'
+/** #™━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
 //: - ©| PROPS |
 /*| #™━━━━━━━━━━━━━━━━━━━━━|*/
-type Props = {
+type ItemProps = {
     //___________
-    item: CartItemProp
-    handleAddToCart: (clickedItem: CartItemProp) => void
+    item: CartItemProps
+    addToCart: (clickedItem: CartItemProps) => void
 }
 /*| #™━━━━━━━━━━━━━━━━━━━━━|*/
+
 /** #™━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 /* () <-- Implicit-return */
-const Item: FC<Props> = ({ item, handleAddToCart }) => (
+const Item: FC<ItemProps> = ({ item, addToCart }) => (
     // #™━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     <Wrapper>
-
+        {/**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/ }
         {/*━━━━━(| Image |)━━━━━*/ }
         <img src={ item.image } alt={ item.title } />
 
         <div>
             {/**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/ }
-            
+
             {/*━━━━━(| Price |)━━━━━*/ }
             <span>
                 <h3 className="price">${ item.price.toFixed(2) }</h3>
@@ -36,13 +39,11 @@ const Item: FC<Props> = ({ item, handleAddToCart }) => (
 
             {/**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/ }
         </div>
-
-
         {/*━━━━━(| Button |)━━━━━*/ }
-        <Button onClick={ () => handleAddToCart(item) }>
+        <Button onClick={ () => addToCart(item) }>
             Add to cart
         </Button>
-
+        {/**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/ }
     </Wrapper>
     // #™━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 )

@@ -1,14 +1,17 @@
 import styled from 'styled-components'
-import { boxShadow } from 'App.styles'
+import { boxShadow, horizontalMargin } from 'App.styles'
 // #™━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 //: - ©MEMBER-PROPERTIES|
 /**| #™━━━━━━━━━━━━━━━━━━━━━|*/
 const borderRadius = ({ value = 0 }) => `${value}px`
 const textShadow = '2px 2px 1px black;'
-const horizontalMargin = ({ marginRight = 0, marginLeft = 0 } ): string => 
-    `0 ${ marginRight }px 0 ${ marginLeft }px`
-/// - END OF: horizontalMargin ♠♠♠
+const hoverWrapperDiv = `
+    background: crimson;
+    color: white;
+     opacity: 2;
+`
+
 
 /**| #™━━━━━━━━━━━━━━━━━━━━━|*/
 
@@ -24,6 +27,10 @@ export/**/ const Wrapper = styled.div`
     cursor: pointer;
     transition: all 0.7s ease-in-out;
     border-radius: 20px;
+    
+    &:hover {
+    ${hoverWrapperDiv};
+    }
     
     .title {
         display: flex;
@@ -48,7 +55,6 @@ export/**/ const Wrapper = styled.div`
         font-family: Verdana, sans-serif;
         text-shadow: ${ textShadow };
         align-self: flex-end;
-        //transform: translateY(180%);
         display: flex;
         justify-content: space-around;
         margin-right: 1.5rem;
@@ -70,14 +76,10 @@ export/**/ const Wrapper = styled.div`
     }
     button:hover {
         color: white;
+        transform: scale3d(1.1, 1.1, 1.3);
+        transition: all 0.45s ease-in-out;
     }
-
-    &:hover {
-        background: crimson;
-        color: white;
-        opacity: 2;
-    }
-
+    
     /* Styling our img */
 
     img {

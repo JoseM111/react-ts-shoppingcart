@@ -1,14 +1,16 @@
 /* App */
 import { useQuery } from 'react-query'
-import { LinearProgress, Grid, Drawer, Badge } from '@material-ui/core'
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart'
-import { ContainerWrapper, StyledButton } from 'App.styles'
+import { LinearProgress, Grid } from '@material-ui/core'
+import { ContainerWrapper } from 'App.styles'
 import Item from 'components/items/Item'
 import { useState } from 'react'
+import DrawerComponent from 'components/DrawerComponent'
+import CartButtonComponent from 'components/CartButtonComponent'
+/** #™━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 //: - ©| PROPS |
 /*| #™━━━━━━━━━━━━━━━━━━━━━|*/
-export type CartItemProp = {
+export type CartItemProps = {
     //___________
     id: number
     category: string
@@ -20,7 +22,7 @@ export type CartItemProp = {
 }
 /*| #™━━━━━━━━━━━━━━━━━━━━━|*/
 
-const fetchProducts = async (): Promise<CartItemProp[]> => {
+const fetchProducts = async (): Promise<CartItemProps[]> => {
     //___________
     return await (
         await fetch('https://fakestoreapi.com/products')
@@ -28,15 +30,16 @@ const fetchProducts = async (): Promise<CartItemProp[]> => {
 }
 // END-OF: fetchProducts--
 
+
 /** #™━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 const App = () => {
     //: - ©MEMBER-PROPERTIES|
     /**| #™━━━━━━━━━━━━━━━━━━━━━|*/
     const [ openCart, setOpenCart ] = useState(false)
-    const [ cartItems, setCartItems ] = useState<CartItemProp[]>([])
+    const [ cartItems, setCartItems ] = useState<CartItemProps[]>([])
     const { data, isLoading, error } =
-        useQuery<CartItemProp[]>(
+        useQuery<CartItemProps[]>(
             'products',
             fetchProducts,
         )
@@ -44,18 +47,23 @@ const App = () => {
 
     // console.log(data)
 
-    /** #™━━━━━━━━━━━━ Helper Functions━━━━━━━━━━━━ */
+    /** #™━━━━━━━━━━━━ Helper Functions ━━━━━━━━━━━━ */
 
-    const getTotalItems = (items: CartItemProp[]) => null
+    const getTotalItems = (items: CartItemProps[]) => {
+        //___________
+        return items.reduce((accumulator: number, item: CartItemProps) => {
+            return item.amount
+        }, 0)
+    }
     // END-OF: getTotalItems--
 
-    const handleAddToCart = (clickedItem: CartItemProp) => null
-    // END-OF: handleAddToCart--
+    const handleAddToCart = (clickedItem: CartItemProps) => null
+    // END-OF: addToCart--
 
-    // const handleRemoveFromCart = () => null
-    // END-OF: handleAddToCart--
+    const handleRemoveFromCart = () => null
+    // END-OF: addToCart--
 
-    /** #™━━━━━━━━━━━━ END OF: Functions━━━━━━━━━━━━ */
+    /** #™━━━━━━━━━━━━ END OF: Functions ━━━━━━━━━━━━ */
 
     if (isLoading) return <LinearProgress color="secondary" />
     if (error) return <div>404 Something went wrong...</div>
@@ -65,26 +73,20 @@ const App = () => {
         // #™━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         <ContainerWrapper>
             {/*━━━━━(| Drawer |)━━━━━*/ }
-            <Drawer
-                anchor="right"
+            <DrawerComponent
                 open={ openCart }
-                onClose={ () => setOpenCart(false) }>
-                DrawerasdasFCvscvzdvaSAADXA
-            </Drawer>
+                onClose={ () => setOpenCart(false) }
+                addToCart={ handleAddToCart }
+                cartItems={ cartItems }
+                removeFromCart={ handleRemoveFromCart }
+            />
 
             {/*━━━━━(| StyledButton |)━━━━━*/ }
             {/** Opens sidebar modal */ }
-            <StyledButton
-                onClick={ () => setOpenCart(true) }>
-                {/**/ }
-                <Badge
-                    badgeContent={ getTotalItems(cartItems) }
-                    color='error'>
-                    <AddShoppingCartIcon
-                        htmlColor='dodgerblue'
-                        fontSize='large' />
-                </Badge>
-            </StyledButton>
+            <CartButtonComponent
+                onClick={ () => setOpenCart(true) }
+                totalItems={ getTotalItems(cartItems) } 
+            />
 
             {/*━━━━━| Grid |━━━━━*/ }
             <Grid container spacing={ 3 }>
@@ -95,7 +97,7 @@ const App = () => {
                             {/**/ }
                             <Item
                                 item={ item }
-                                handleAddToCart={ handleAddToCart }
+                                addToCart={ handleAddToCart }
                             />
                         </Grid>
                     ))

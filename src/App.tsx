@@ -6,6 +6,7 @@ import Item from 'components/items/Item'
 import { useState } from 'react'
 import DrawerComponent from 'components/DrawerComponent'
 import CartButtonComponent from 'components/CartButtonComponent'
+import { fetchProducts } from 'api'
 /** #™━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 //: - ©| PROPS |
@@ -21,15 +22,6 @@ export type CartItemProps = {
     amount: number
 }
 /*| #™━━━━━━━━━━━━━━━━━━━━━|*/
-
-const fetchProducts = async (): Promise<CartItemProps[]> => {
-    //___________
-    return await (
-        await fetch('https://fakestoreapi.com/products')
-    ).json()
-}
-// END-OF: fetchProducts--
-
 
 /** #™━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
@@ -57,7 +49,29 @@ const App = () => {
     }
     // END-OF: getTotalItems--
 
-    const handleAddToCart = (clickedItem: CartItemProps) => null
+    const handleAddToCart = (clickedItem: CartItemProps) => {
+        //___________
+        setCartItems((prevState) => {
+            //___________
+            // 1. Is the item already in the cart?
+            const isItemAlreadyInCart = prevState
+                .find((item) => item.id === clickedItem.id)
+            
+            if (isItemAlreadyInCart) {
+                //___________
+                return prevState.map((item) => (
+                    //___________
+                    item.id === clickedItem.id 
+                        ? { ...item, amount: item.amount } 
+                        : item
+                ))
+            }
+            /// - END OF: setCartItems ♠♠♠ 
+            
+            // First time item is added
+            return [...prevState, {...clickedItem, amount: 1}]
+        })
+    }
     // END-OF: addToCart--
 
     const handleRemoveFromCart = () => null
@@ -85,7 +99,7 @@ const App = () => {
             {/** Opens sidebar modal */ }
             <CartButtonComponent
                 onClick={ () => setOpenCart(true) }
-                totalItems={ getTotalItems(cartItems) } 
+                totalItems={ getTotalItems(cartItems) }
             />
 
             {/*━━━━━| Grid |━━━━━*/ }

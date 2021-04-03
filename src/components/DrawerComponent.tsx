@@ -13,7 +13,7 @@ type DrawerProps = {
     onClose: () => void
     addToCart: (clickedItem: CartItemProps) => void
     cartItems: CartItemProps[]
-    removeFromCart: () => void
+    removeFromCart: (id: number) => void
 }
 /*| #™━━━━━━━━━━━━━━━━━━━━━|*/
 

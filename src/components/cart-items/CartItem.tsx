@@ -30,10 +30,19 @@ const CartItem: FC<ItemProps> = ({ item, addToCart, removeFromCart }) => (
                 {/**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/ }
 
                 {/*━━━━━(| Price |)━━━━━*/ }
-                <p>Price: ${ item.price }</p>
-
+                <b><p
+                >Price:
+                    <br/>
+                 ${ item.price.toFixed(2) }
+                </p></b>
+                <br/>
+                
                 {/*━━━━━(| Total-amount |)━━━━━*/ }
-                <p>${ ( item.amount * item.price ).toFixed(2) }</p>
+                <b> <p>
+                    Total:
+                    <br/>
+                    ${ ( item.amount * item.price ).toFixed(2) }
+                </p></b>
 
                 {/**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/ }
             </div>
@@ -44,22 +53,28 @@ const CartItem: FC<ItemProps> = ({ item, addToCart, removeFromCart }) => (
 
                 {/*━━━━━(| Button(Remove from cart)  |)━━━━━*/ }
                 <Button
+                    className="btn1"
                     size="small"
                     disableElevation
                     variant="contained"
                     onClick={ () => removeFromCart(item.id) }
-                > - </Button>
+                > 
+                    <b>-</b> 
+                </Button>
 
                 {/*━━━━━(| Amount |)━━━━━*/ }
-                <p>{ item.amount }</p>
+                <b><p>{ item.amount }</p></b>
 
                 {/*━━━━━(| Button(Remove from cart)  |)━━━━━*/ }
                 <Button
+                    className="btn2"
                     size="small"
                     disableElevation
                     variant="contained"
                     onClick={ () => addToCart(item) }
-                > + </Button>
+                >
+                    <b>+</b>
+                </Button>
 
                 {/**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/ }
             </div>

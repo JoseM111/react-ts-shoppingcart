@@ -62,7 +62,7 @@ const App = () => {
                 return prevState.map((item) => (
                     //___________
                     item.id === clickedItem.id 
-                        ? { ...item, amount: item.amount } 
+                        ? { ...item, amount: item.amount + 1 } 
                         : item
                 ))
             }

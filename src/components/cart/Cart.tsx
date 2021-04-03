@@ -19,6 +19,16 @@ type CartProps = {
 
 const Cart: FC<CartProps> = ({ cartItems, addToCart, removeFromCart }) => {
 
+    /** #™━━━━━━━━━━━━ Helper Functions ━━━━━━━━━━━━ */
+
+    const calcCartTotal = (items: CartItemProps[]) =>
+        items.reduce(
+            (accumulator, item) =>
+                accumulator + item.amount * item.price, 0)
+    // END-OF: calcCartTotal--
+
+    /** #™━━━━━━━━━━━━ END OF: Functions ━━━━━━━━━━━━ */
+
     // #™━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     return (
         // #™━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -31,17 +41,18 @@ const Cart: FC<CartProps> = ({ cartItems, addToCart, removeFromCart }) => {
 
             {/*━━━━━(| Mapping thru items |)━━━━━*/ }
             {
-                cartItems.map( (item) => (
+                cartItems.map((item) => (
                     //___________
                     // eslint-disable-next-line react/jsx-no-undef
                     <CartItem
                         key={ item.id }
-                        item={item}
-                     addToCart={addToCart}
-                     removeFromCart={removeFromCart}/>
+                        item={ item }
+                        addToCart={ addToCart }
+                        removeFromCart={ removeFromCart } />
                 ))
             }
 
+            <h2>Total: ${ calcCartTotal(cartItems).toFixed(2) }</h2>
 
             {/**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/ }
         </CartWrapper>

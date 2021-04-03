@@ -56,25 +56,38 @@ const App = () => {
             // 1. Is the item already in the cart?
             const isItemAlreadyInCart = prevState
                 .find((item) => item.id === clickedItem.id)
-            
+
             if (isItemAlreadyInCart) {
                 //___________
                 return prevState.map((item) => (
                     //___________
-                    item.id === clickedItem.id 
-                        ? { ...item, amount: item.amount + 1 } 
+                    item.id === clickedItem.id
+                        ? { ...item, amount: item.amount + 1 }
                         : item
                 ))
             }
-            /// - END OF: setCartItems ♠♠♠ 
-            
+            /// - END OF: setCartItems ♠♠♠  
+
             // First time item is added
-            return [...prevState, {...clickedItem, amount: 1}]
+            return [ ...prevState, { ...clickedItem, amount: 1 } ]
         })
     }
     // END-OF: addToCart--
 
-    const handleRemoveFromCart = () => null
+    const handleRemoveFromCart = (id: number) => {
+        //___________
+        setCartItems((prevState) => (
+            //___________
+            prevState.reduce((accumulator, item) => {
+                //___________
+                if (item.id === id) {
+                    if (item.amount === 1) return accumulator
+                    //___________
+                    return [...accumulator, { ...item,  amount: item.amount -1 }]
+                } else return [...accumulator, item]
+            }, [] as CartItemProps[])
+        ))
+    }
     // END-OF: addToCart--
 
     /** #™━━━━━━━━━━━━ END OF: Functions ━━━━━━━━━━━━ */
@@ -89,7 +102,7 @@ const App = () => {
             {/*━━━━━(| Drawer |)━━━━━*/ }
             <DrawerComponent
                 open={ openCart }
-                onClose={ () => setOpenCart(false) }
+                onClose={ () => setOpenCart(true) }
                 addToCart={ handleAddToCart }
                 cartItems={ cartItems }
                 removeFromCart={ handleRemoveFromCart }
